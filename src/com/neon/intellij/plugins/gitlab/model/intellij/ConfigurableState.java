@@ -24,6 +24,16 @@ public class ConfigurableState implements PersistentStateComponent< Configurable
 
     public String token;
 
+    public String username;
+
+    public String password;
+
+    public enum AuthType {
+        GENERAL,
+        LDAP,
+    };
+    public AuthType authType;
+
     public Boolean ignoreCertificateErrors = true;
 
 
@@ -62,6 +72,31 @@ public class ConfigurableState implements PersistentStateComponent< Configurable
     public void setToken(String token) {
         this.token = token;
     }
+
+    public String getUsername() {
+        return username == null ? "" : username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password == null ? "" : password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public AuthType getAuthType() {
+        return authType == null ? AuthType.GENERAL : authType;
+    }
+
+    public void setAuthType(AuthType authType) {
+        this.authType = authType;
+    }
+
 
     public Boolean getIgnoreCertificateErrors() {
         return ignoreCertificateErrors;
