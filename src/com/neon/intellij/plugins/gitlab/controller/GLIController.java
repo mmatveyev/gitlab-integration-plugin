@@ -34,9 +34,7 @@ public class GLIController {
 
         this.jbFacade = new JBFacade( project );
 
-        Object[] connectionProperties = getConnectionProperties();
-        this.glFacade = new GLFacade(
-                (String)connectionProperties[ 0 ], (String)connectionProperties[ 1 ], (Boolean)connectionProperties[ 2] );
+        this.glFacade = new GLFacade(getConnectionProperties());
     }
 
     public Project getProject() {
@@ -107,13 +105,11 @@ public class GLIController {
     }
 
     public void refresh() {
-        Object[] properties = getConnectionProperties();
-        glFacade.reload( (String) properties[0], (String) properties[1], (Boolean) properties[2] );
+        glFacade.reload(getConnectionProperties());
     }
 
-    private Object[] getConnectionProperties() {
-        ConfigurableState state = ConfigurableState.getInstance();
-        return new Object[] { state.host, state.token, state.ignoreCertificateErrors };
+    private ConfigurableState getConnectionProperties() {
+        return ConfigurableState.getInstance();
     }
 
 }

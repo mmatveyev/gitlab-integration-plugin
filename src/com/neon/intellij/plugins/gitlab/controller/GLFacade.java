@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import com.neon.intellij.plugins.gitlab.model.gitlab.GLAuthType;
+import com.neon.intellij.plugins.gitlab.model.intellij.ConfigurableState;
 import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabIssue;
 import org.gitlab.api.models.GitlabNamespace;
@@ -16,17 +19,29 @@ public class GLFacade {
 
     private GitlabAPI api;
 
-    public GLFacade( final String gitlabHost, final String gitlabApiToken, final Boolean ignoreCertificateErrors ) {
-        reload( gitlabHost, gitlabApiToken, ignoreCertificateErrors );
+    public GLFacade(ConfigurableState state) {
+        reload(state);
     }
 
-    public boolean reload( final String host, final String token, final Boolean ignoreCertificateErrors ) {
-        if ( host != null && token != null && ! host.isEmpty() && ! token.isEmpty() ) {
-            api = GitlabAPI.connect(host, token);
-            api.ignoreCertificateErrors( ignoreCertificateErrors );
-            return true;
+    public boolean reload(ConfigurableState properties) {
+        if (properties.getHost().isEmpty()) {
+            return false;
         }
-        return false;
+        if (properties.getAuthType() == GLAuthType.GENERAL) {
+            if (!properties.getToken().isEmpty()) {
+                api = GitlabAPI.connect(properties.getHost(), properties.getToken());
+            } else {
+                return false;
+            }
+        } else {
+            if (!properties.getUsername().isEmpty() && !properties.getPassword().isEmpty()) {
+                api = GitlabAPI.connect(properties.getUsername(), properties.getPassword());
+            } else {
+                return false;
+            }
+        }
+        api.ignoreCertificateErrors(properties.getIgnoreCertificateErrors());
+        return true;
     }
 
     private void checkApi() throws IOException {

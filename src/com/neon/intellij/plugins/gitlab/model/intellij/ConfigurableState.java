@@ -7,6 +7,7 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Transient;
+import com.neon.intellij.plugins.gitlab.model.gitlab.GLAuthType;
 import org.jetbrains.annotations.Nullable;
 
 @State(
@@ -28,11 +29,7 @@ public class ConfigurableState implements PersistentStateComponent< Configurable
 
     public String password;
 
-    public enum AuthType {
-        GENERAL,
-        LDAP,
-    };
-    public AuthType authType;
+    public GLAuthType authType;
 
     public Boolean ignoreCertificateErrors = true;
 
@@ -89,11 +86,11 @@ public class ConfigurableState implements PersistentStateComponent< Configurable
         this.password = password;
     }
 
-    public AuthType getAuthType() {
-        return authType == null ? AuthType.GENERAL : authType;
+    public GLAuthType getAuthType() {
+        return authType == null ? GLAuthType.GENERAL : authType;
     }
 
-    public void setAuthType(AuthType authType) {
+    public void setAuthType(GLAuthType authType) {
         this.authType = authType;
     }
 
