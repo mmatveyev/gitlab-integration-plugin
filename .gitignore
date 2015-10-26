@@ -1,6 +1,7 @@
 *.iml
 target/
-.idea/
+**/.idea/workspace.xml
+**/.idea/tasks.xml
 out/
 gitlab-integration-plugin.zip
 
