@@ -13,7 +13,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Vector;
 
-public class SettingsView extends JPanel implements EditableView<ConfigurableState, Object[] > {
+public class SettingsView extends JPanel implements EditableView<ConfigurableState, ConfigurableState > {
 
     private final JLabel labelHost = new JLabel( "GitLab Host" );
     private final JTextField textHost = new JTextField();
@@ -28,7 +28,7 @@ public class SettingsView extends JPanel implements EditableView<ConfigurableSta
     private final JTextField textUsername = new JTextField();
 
     private final JLabel labelPassword = new JLabel( "GitLab password" );
-    private final JTextField textPassword = new JTextField();
+    private final JPasswordField textPassword = new JPasswordField();
 
     private final JCheckBox checkIgnoreCertificateErrors = new JCheckBox( "Ignore Certificate Errors", true );
 
@@ -95,8 +95,14 @@ public class SettingsView extends JPanel implements EditableView<ConfigurableSta
     }
 
     @Override
-    public Object[] save() {
-        return new Object[] { textHost.getText(), textAPI.getText(), checkIgnoreCertificateErrors.isSelected() };
+    public ConfigurableState save() {
+        ConfigurableState state = new ConfigurableState();
+        state.setAuthType((GLAuthType) selectAuthType.getSelectedItem());
+        state.setHost(textHost.getText());
+        state.setIgnoreCertificateErrors(checkIgnoreCertificateErrors.isSelected());
+        state.setUsername(textUsername.getText());
+        state.setPassword(new String(textPassword.getPassword()));
+        return state;
     }
 
     public void addCommonFields() {

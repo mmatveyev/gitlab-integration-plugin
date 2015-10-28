@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="org.gitlab:java-gitlab-api:1.1.9" type="repository">
+    <properties maven-id="org.gitlab:java-gitlab-api:1.1.9" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/java-gitlab-api-1.1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.5.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.5.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-io-2.4.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/java-gitlab-api-1.1.9-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/java-gitlab-api-1.1.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

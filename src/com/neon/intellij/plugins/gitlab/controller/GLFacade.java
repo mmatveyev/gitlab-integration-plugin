@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.neon.intellij.plugins.gitlab.model.gitlab.GLAuthType;
 import com.neon.intellij.plugins.gitlab.model.intellij.ConfigurableState;
 import org.gitlab.api.GitlabAPI;
-import org.gitlab.api.models.GitlabIssue;
-import org.gitlab.api.models.GitlabNamespace;
-import org.gitlab.api.models.GitlabProject;
-import org.gitlab.api.models.GitlabUser;
+import org.gitlab.api.models.*;
 
 public class GLFacade {
 
@@ -35,7 +33,13 @@ public class GLFacade {
             }
         } else {
             if (!properties.getUsername().isEmpty() && !properties.getPassword().isEmpty()) {
-                api = GitlabAPI.connect(properties.getUsername(), properties.getPassword());
+                try {
+                    GitlabSession session = GitlabAPI.connect(properties.getHost(), properties.getUsername(), properties.getPassword());
+                    api = GitlabAPI.connect(properties.getHost(), session.getPrivateToken());
+                } catch (IOException e) {
+                   Logger.getInstance("gitlab").warn(e.getMessage());
+                    return false;
+                }
             } else {
                 return false;
             }

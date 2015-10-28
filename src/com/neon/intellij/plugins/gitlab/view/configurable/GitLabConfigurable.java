@@ -2,6 +2,7 @@ package com.neon.intellij.plugins.gitlab.view.configurable;
 
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
+import com.neon.intellij.plugins.gitlab.model.gitlab.GLAuthType;
 import com.neon.intellij.plugins.gitlab.model.intellij.ConfigurableState;
 import javax.swing.JComponent;
 import org.jetbrains.annotations.Nls;
@@ -44,11 +45,8 @@ public class GitLabConfigurable implements SearchableConfigurable {
      *
      */
     public boolean isModified() {
-        Object[] save = view.save();
-        return save == null
-                || ! settings.getHost().equals( save[0] )
-                || ! settings.getToken().equals( save[1] )
-                || ! settings.getIgnoreCertificateErrors().equals( save[2] );
+        ConfigurableState save = view.save();
+        return save == null || !save.equals(settings);
     }
 
     /**
@@ -56,10 +54,16 @@ public class GitLabConfigurable implements SearchableConfigurable {
      */
     @Override
     public void apply() throws ConfigurationException {
-        Object[] save = view.save();
-        settings.setHost( ( String ) save[0] );
-        settings.setToken( ( String ) save[1] );
-        settings.setIgnoreCertificateErrors( ( Boolean ) save[2] );
+        ConfigurableState save = view.save();
+        settings.setHost( save.getHost() );
+        settings.setIgnoreCertificateErrors( save.getIgnoreCertificateErrors() );
+        settings.setAuthType(save.getAuthType());
+        if (save.getAuthType().equals(GLAuthType.LDAP)) {
+            settings.setUsername(save.getUsername());
+            settings.setPassword(save.getPassword());
+        } else {
+            settings.setToken(save.getToken());
+        }
     }
 
     /**
